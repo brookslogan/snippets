@@ -1,0 +1,4 @@
+Quantile-related:
+- `approx-cdf.R` contains functions to perform work with CDFs based on `approxfun`-like linear interpolation and constant extrapolation of CDFs, but without the use of a vector of output x values and allowing for jump discontinuities.  These CDFs can be plotted, mixed together (convexly in CDF-space), and used to caclculate quantiles.  It is probably possible to build on this to calculate type-7 weighted quantiles easily.
+- `weighted-quantile-type-1.R` contains a function to calculate type-1 weighted quantiles
+- for quantile type descriptions, see `?quantile`
