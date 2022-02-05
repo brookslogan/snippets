@@ -1,0 +1,23 @@
+#' Calculates a weighted type-1 quantiles
+#'
+#' @param x instance values
+#' @param w instance importance weights
+#' @param probs quantile levels to calculate
+#'
+#' @return quantile values corresponding to levels \code{probs}
+#'
+#' @seealso quantile
+#'
+#' @importFrom data.table setDT set
+weighted_quantile_type1 <- function(x, w, probs, na.rm=FALSE) {
+    if (!na.rm && any(is.na(x))) {
+        stop ('na.rm=FALSE but there are NAs in x')
+    }
+    ## xxx also check w?
+    should_include = !is.na(x)
+    x <- x[should_include]
+    w <- w[should_include]
+    DT = setDT(data.frame(x=x, w=w), key="x")
+    set(DT,, "p", cumsum(DT[["w"]]))
+    DT[list(probs*sum(w)), x, on="p", roll=-Inf, rollends=c(TRUE,TRUE), nomatch=NA]
+}
