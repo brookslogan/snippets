@@ -13,7 +13,10 @@ weighted_quantile_type1 <- function(x, w, probs, na.rm=FALSE) {
     if (!na.rm && any(is.na(x))) {
         stop ('na.rm=FALSE but there are NAs in x')
     }
-    ## xxx also check w?
+    if (any(is.na(w))) stop ('NA weights are not allowed')
+    if (any(w<=0)) stop ('Negative and zero weighted are not allowed')
+    ## (weights of could cause duplicate results)
+    if (length(x) != length(w)) stop ('lengths of x and w should match') 
     should_include = !is.na(x)
     x <- x[should_include]
     w <- w[should_include]
